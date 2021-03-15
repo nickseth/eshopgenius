@@ -1,0 +1,111 @@
+<ul class="site-nav" id="AccessibleNav2">
+  {% for link in linklists[section.settings.right-menu].links %}
+  {% assign linkhandle = link.title | handle %}
+  {% if link.links != blank %}
+  {% assign parent_index = forloop.index %}
+  <li
+      class="site-nav--has-dropdown {% if link.active %}site-nav--active{% endif %}"
+      aria-haspopup="true">
+    <a
+       href="{{ link.url }}"
+       class="site-nav--link"
+       data-meganav-type="parent"
+       aria-controls="MenuParent-{{ parent_index }}"
+       aria-expanded="false"
+       {% unless request.page_type == 'index' %}{% if link.active %}aria-current="page"{% endif %}{% endunless%}>
+      {{ link.title }}
+      <span class="icon icon-arrow-down" aria-hidden="true"></span>
+    </a>
+    <ul
+        id="MenuParent-{{ parent_index }}"
+        class="site-nav--dropdown {% if link.levels == 2 %}site-nav--has-grandchildren{% endif %}"
+        data-meganav-dropdown>
+      {% for childlink in link.links %}
+      {% if childlink.links != blank %}
+      {% assign child_index = forloop.index %}
+      <li
+          class="site-nav--has-dropdown site-nav--has-dropdown-grandchild {% if childlink.active %}site-nav--active{% endif %}"
+          aria-haspopup="true">
+        <a
+           href="{{ childlink.url }}"
+           class="site-nav--link"
+           aria-controls="MenuChildren-{{ parent_index }}-{{ child_index }}"
+           data-meganav-type="parent"
+           {% unless request.page_type == 'index' %}{% if childlink.active %}aria-current="page"{% endif %}{% endunless%}
+           tabindex="-1">
+          {{ childlink.title}}
+          <!--                     <span class="icon icon-arrow-down" aria-hidden="true"></span> -->
+        </a>
+        <ul
+            id="MenuChildren-{{ parent_index }}-{{ child_index }}"
+            class="site-nav--dropdown-grandchild"
+            data-meganav-dropdown>
+          {% for grandchildlink in childlink.links %}
+          <li{% if grandchildlink.active %} class="site-nav--active"{% endif %}>
+            <a
+               href="{{ grandchildlink.url }}"
+               class="site-nav--link"
+               data-meganav-type="child"
+               {% unless request.page_type == 'index' %}{% if grandchildlink.active %}aria-current="page"{% endif %}{% endunless %}
+               tabindex="-1">
+              {{ grandchildlink.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% else %}
+      <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+        <a
+           href="{{ childlink.url }}"
+           class="site-nav--link"
+           data-meganav-type="child"
+           {% if childlink.active %}aria-current="page"{% endif %}
+           tabindex="-1">
+          {{ childlink.title  }}
+        </a>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </li>
+  {% else %}
+  <li class="linklist-item {% if linkhandle == 'order-status' %}order-status-li {% endif %}">
+    <ul>
+      <li  class="add-link-class {% if linkhandle == 'order-status' %}order-status {% endif %} {% if link.active %}site-nav--active{% endif %}">
+        {% if linkhandle == 'order-status' %}
+        <div class="input-bg">
+          <div class="input-left"></div>
+          <div class="input-right"></div>
+          <div class="input-bottom"></div>{% endif %}
+          <a
+             href="{{ link.url }}"
+             class="site-nav--link"
+             data-meganav-type="child"
+             {% unless request.page_type == 'index' %}{% if link.active %}aria-current="page"{% endif %}{% endunless%}>
+            {{ link.title }}
+          </a>
+          {% if linkhandle == 'order-status' %}</div>
+        {% endif %}
+      </li>
+    </ul>
+    {% if forloop.last %}
+    {% if  shop.customer_accounts_enabled %}
+    <div class="add-link-class site-header--text-links account-links">
+      <span class="site-header--meta-links medium-down--hide">
+        {% if customer %}
+        {% capture first_name %}<a href="{{ routes.account_url }}">{{ customer.first_name }}</a>{% endcapture %}
+        {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}  {{ 'layout.customer.log_out' | t | customer_logout_link }}
+        {% else %}
+        {{ 'layout.customer.sign_in' | t | customer_login_link }}
+
+        {% endif %}
+      </span>
+    </div>
+    {% endif %}{% endif %}
+  </li>
+  {% endif %}
+  {% endfor %}
+
+
+</ul>

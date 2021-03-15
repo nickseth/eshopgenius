@@ -1,0 +1,65 @@
+ <div class="grid">
+   <div class="grid-item small--one-half one-quarter">
+      <ul class="sidebar-left">
+        {% for block in section.blocks %}
+        <li>
+          <a href="#lorem{{forloop.index}}">
+            <h5>{{block.settings.text}}</h5>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+   
+   <div class="grid-item small--one-half three-quarters">
+     <div class="faq-right">
+     {% for block in section.blocks %}
+     <div class="faq-content {% if forloop.last %}block-return{% endif %}" id="lorem{{forloop.index}}">
+       <h3>{{block.settings.text}}
+         <a name="lorem{{forloop.index}}"></a>
+       </h3>
+      {{ block.settings.content }}
+       <a href="#lorem{{forloop.index}}" class="gotop"><span>Return to top</span></a>
+     </div>
+     {% endfor %}
+    </div>
+   </div>
+   <div style="display:none;" id="faq-title">{{ section.settings.heading }}</div>
+    </div>
+
+{% comment %}
+<script>
+{% endcomment %}
+{% schema %}
+  {
+    "name": "Section FAQ",
+    "settings": [
+      {
+		"type":"text",
+        "id":"heading",
+        "label":"Heading"
+      }
+	],
+     
+  "blocks": [
+    {
+      "type": "text",
+      "name": "text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Side Navigation / Heading"
+        },        
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content"
+        }
+     ]
+    }
+ ]
+      
+  }
+{% endschema %}
+

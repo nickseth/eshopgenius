@@ -1,0 +1,39 @@
+<div class="wrapper login-page">
+  <div class="cont-img">
+    <div class="page-fixed">
+      <div class="grid">
+
+        <div class="grid-item large--four-fifths push--large--one-tenth contact-form">
+          <div class="page-heading">
+            <h2>{{ 'customer.register.title' | t }}</h2>
+          </div>
+          {% form 'create_customer' %}
+
+          {% include 'form-errors-custom' %}
+
+          <label for="first_name" class="form-label">{{ 'customer.register.first_name' | t }}</label>
+          <input type="text" value="" name="customer[first_name]" id="first_name" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.errors contains "first_name" %} class="error"{% endif %} autofocus>
+
+          <label for="last_name" class="form-label">{{ 'customer.register.last_name' | t }}</label>
+          <input type="text" value="" name="customer[last_name]" id="last_name" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.errors contains "last_name" %} class="error"{% endif %}>
+
+          <label for="email" class="form-label">{{ 'customer.register.email' | t }}</label>
+          <input type="email" value="" name="customer[email]" id="email" placeholder="{{ 'customer.register.email' | t }}" {% if form.errors contains "email" %} class="error"{% endif %} autocorrect="off" autocapitalize="off">
+
+          <label for="password" class="form-label">{{ 'customer.register.password' | t }}</label>
+          <input type="password" value="" name="customer[password]" id="create_password" placeholder="{{ 'customer.register.password' | t }}" {% if form.errors contains "password" %} class="error"{% endif %}>
+         <div class="text-center login-btn">
+            <div class="btn-wrap">
+            <input type="submit" value="{{ 'customer.register.submit' | t }}" class="btn">
+           </div>
+          </div>
+           <div class="text-center forgot-wrap">
+             <span>  {{ 'customer.register.or' | t }}</span>
+             <a href="/account/login">{{ 'customer.login.sign_in' | t }}</a>
+          </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

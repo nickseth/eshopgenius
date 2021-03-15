@@ -1,0 +1,40 @@
+<div class="wrapper faq-page">
+  <div class="page-img">
+    <div class="page-fixed">
+      <div class="page-heading">
+        <h2 id="page-title" class="faq-title"></h2>
+      </div>
+      <div class="rte">  
+        {% section 'faq' %}
+
+      </div>
+    </div>
+  </div>
+  <div class="mobile-img large--hide medium--hide">
+  <img src="{{ 'faq-btm-mobile.png' | asset_url}}" />
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    var title =  $('#faq-title').html();
+    $('.faq-title').html(title);
+
+    $('.gotop').click(function(e){
+      e.preventDefault();
+      $("html, body").animate({ 
+        scrollTop: $("#shopify-section-faq").offset().top  
+      }, 600);    
+    });
+
+    $('#shopify-section-faq ul li').click(function(e){
+      var id = $(this).find('a').attr('href');
+      e.preventDefault();
+      $("html, body").animate({ 
+        scrollTop: $(id).offset().top  
+      }, 600);    
+    });
+
+  });
+
+</script>

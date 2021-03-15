@@ -1,0 +1,19 @@
+<div class="wrapper order-status-page">
+  <div class="page-img">
+    <div class="page-fixed">
+      {%  comment %}
+      {% include 'breadcrumb' %}
+      {%  endcomment %}
+      <div class="grid">
+        <div class="grid-item large--four-fifths push--large--one-tenth">
+          <div class="rte">
+            {{ page.content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="mobile-img prduct-mobile large--hide medium--hide">
+    <img src="{{ 'order-mob.png' | asset_url }}" />
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="wrapper">
+  <div class="page-img">
+    <div class="page-fixed">
+      {%  comment %}
+      {% include 'breadcrumb' %}
+      {%  endcomment %}
+      <div class="grid">
+        <div class="grid-item large--four-fifths push--large--one-tenth">
+          <div class="page-heading">
+            <h2>{{ page.title }}</h2>
+          </div>
+          <div class="rte">
+            {{ page.content }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

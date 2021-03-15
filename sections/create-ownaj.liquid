@@ -1,0 +1,183 @@
+<div data-section-id="{{ section.id }}"  class="wrapper-full">
+  <div class="featured-block-wrap-create">
+     <div class="right-img">
+      <img src="{{ 'asse-r1.png' | asset_url}}"/>
+    </div>
+    <div class="left-img fade_up_right animated">
+      <img src="{{ 'partners-left.png' | asset_url}}"/>
+    </div>
+    <div class="bottom-img">
+      <img src="{{ 'partner-n.png' | asset_url}}"/>
+    </div>
+    <div class="featured-heading text-center">
+      {{section.settings.heading}}
+    </div>
+    <div class="grid--full text-left">
+      <div class="grid-item collection-listing small--one-whole one-third first small--hide"></div>
+      {%- assign index = 0 -%}
+      {%- assign index = section.blocks.size -%}
+      {%- assign featured_collection_width = 'small--one-whole one-third' -%}
+      {% case index %}
+      {% when 1 %}
+      {%- assign featured_collection_width = 'one-whole' -%}
+      {%- assign featured_collection_size = '1024x' -%}
+      {%- assign width = '1000' %}
+        {%- assign height = '1000' %}
+      {% when 2 %}
+      {%- assign featured_collection_width = 'one-half' -%}
+      {%- assign featured_collection_size = '540x' -%}
+      {%- assign width = '480' %}
+        {%- assign height = '480' %}
+      {% when 3 %}
+      {%- assign featured_collection_width = 'small--one-whole one-third' -%}
+      {%- assign featured_collection_size = '345x' -%}
+      {%- assign width = '310' -%}
+      {%- assign height = '310' -%}
+      {% when 4 %}
+      {%- assign featured_collection_width = 'small--one-whole one-quarter' -%}
+      {%- assign featured_collection_size = '250x' -%}
+      {%- assign width = '225' -%}
+      {%- assign height = '225' -%}
+      {% when 5 %}
+      {%- assign featured_collection_width = 'small--one-whole one-third' -%}
+      {%- assign featured_collection_size = '195x' -%}
+      {%- assign width = '175' -%}
+      {%- assign height = '175' -%}
+      {% when 6 %}
+      {%- assign featured_collection_width = 'small--one-whole one-third' -%}
+      {%- assign featured_collection_size = '195x' -%}
+      {%- assign width = '140' -%}
+      {%- assign height = '140' -%}
+      {% endcase %}
+
+      {% if index > 0 %}
+
+
+	{% assign length  = 0 %}
+      {% assign ct = 0 %}
+      {% for block in section.blocks %}  
+      {% assign length  = forloop.length %}
+      {% assign findlength  = forloop.length | minus:4 %}
+      
+      <div class="grid-item collection-listing {{ featured_collection_width }} {% if forloop.index <= 2 %}first-2-item {% endif %} {% if forloop.index > findlength %} {% assign ct = ct | plus:1 %} last-4-item-{{ct}} {% endif %}">
+        <div class="featured-box--inner">
+          <div class="featured-box--image {% unless block.settings.imge == blank %} vertical-middle{% endunless %}">
+            {% if block.settings.imge %}
+            {%- assign image = block.settings.imge -%}
+            {%- assign max_width = width | plus: 0 -%}
+            {%- assign max_height = height | plus: 0 -%}
+			<a href="{{block.settings.link}}">
+            {%- include 'image-logic' with width: max_width, height: max_height -%}
+
+            {%- assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <div id="{{ wrapper_id }}" class="lazyload__image-wrapper no-js">
+              <div {% if collection_image != blank %}{% endif %}>
+                <img class="no-js lazyload"
+                     data-src="{{ img_url }}"
+                     data-widths="[125, 180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                     data-aspectratio="{{ collection_image.aspect_ratio }}"
+                     data-sizes="auto"
+                     alt="{{ collection_image.alt | escape }}">
+              </div>
+            </div>
+            {% else %}
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+            </a>
+          </div>
+
+          {% unless collection_image == blank %}
+          <noscript>
+            <img src="{{ collection_image | img_url: '580x' }}"
+                 srcset="{{ collection_image | img_url: '580x' }} 1x, {{ collection_image | img_url: '580x', scale: 2 }} 2x"
+                 alt="{{ collection_image.alt }}" style="opacity:1;">
+          </noscript>
+          {% endunless %}
+        </div>
+        {% if block.settings.title != blank %}<h2 class="featured-box--title">{{block.settings.title}}</h2>{% endif %}      
+        {% if block.settings.description != blank %}<p>{{block.settings.description}}</p>{% endif %}
+        {% if block.settings.label != blank %}<a href="{{block.settings.link}}">{{block.settings.label}}</a>{% endif %}
+
+      </div>
+
+      {% endfor %}
+
+      {% else %}
+      <div class="grid-item text-center">
+        <p>{{ 'homepage.featured_collections.no_collections_html' | t }}</p>
+      </div>
+      <div class="grid-item">
+        <div class="grid">
+          {% for i in (1..3) %}
+          <div class="grid-item small--one-half medium--one-third large--one-sixth text-center">
+            {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+            {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+            <p><a href="/admin/collections">{{ 'homepage.featured_collections.example_collection' | t }}</a></p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="grid-item collection-listing small--one-half one-third last  small--hide"></div>
+    </div>
+  </div>
+ 
+</div>
+
+
+{% comment %}
+<script>
+  {% endcomment %}
+
+  {% schema %}
+  {
+    "name":"Image Block",
+      "class": "collection-list-section grid-18",
+        "max_blocks": 51,
+          "settings": [
+            {
+              "type":"textarea",
+              "id":"heading",
+              "label":"Heading",
+              "default":"See how others are taking <span> advantage of our services</span>"
+            }
+          ],
+            "blocks": [
+              {
+                "type": "image",
+                "name":"image",
+                "settings": [
+                  {
+                    "id": "imge",
+                    "type": "image_picker",
+                    "label": "Image"
+                  },
+                  {
+                    "id": "title",
+                    "type": "text",
+                    "label": "Title",
+                    "default":"Title "
+                  },
+                  {
+                    "id": "description",
+                    "type": "textarea",
+                    "label": "Description",
+                    "default":"Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+                  },
+                  {
+                    "id": "link",
+                    "type": "url",
+                    "label": "Link"
+                  },
+                  {
+                    "id": "label",
+                    "type": "text",
+                    "label": "Label",
+                    "default":"Shop All "
+                  }
+                ]
+              }
+            ]
+  }
+  {% endschema %}

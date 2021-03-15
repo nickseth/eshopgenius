@@ -1,0 +1,18 @@
+<style>
+  #insta-feed h2{
+    font-size:{{settings.heading_size}}px;
+    font-family: {{settings.heading_font.family }};
+  }
+  {{ settings.heading_font | font_face }}
+</style>
+
+<div class="insta-wrap">
+<div class="featured-heading text-center animate__zoomIn animatable">
+  See what <br> We've <span> been up to lately </span>
+</div>
+{{settings.html_area}}
+{% unless settings.html_area contains "feed-" %}
+  <div id="insta-feed" >
+  </div>
+{% endunless  %}
+</div>
